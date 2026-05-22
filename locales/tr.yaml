@@ -962,3 +962,5 @@ setup:
   complete_start: hermes ile sohbet etmeye başlayın
   complete_gateway: 'Gateway''ı çalıştırın: hermes gateway run'
   complete_docs: 'Dokümantasyonu okuyun: hermes help'
+
+  run_agent.compending_context: "🗜️ Bağlam sıkıştırılıyor — devam etmek için önceki konuşmaları özetliyorum..."

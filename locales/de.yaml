@@ -1048,3 +1048,5 @@ setup:
   tools_image_gen: 'Bildgenerierung aktivieren? (j/n):'
   tools_tts: 'Text-to-Speech aktivieren? (j/n):'
   tools_web_search: 'Websuche aktivieren? (j/n):'
+
+  run_agent.compending_context: "🗜️ Kontext wird komprimiert — fasse frühere Zusammenfassungen zusammen, um fortzufahren..."

@@ -791,3 +791,5 @@ setup:
   complete_start: 'Commencez à discuter avec : hermes'
   complete_gateway: 'Lancez le gateway : hermes gateway run'
   complete_docs: 'Consultez la documentation : hermes help'
+
+  run_agent.compending_context: "🗜️ Compression du contexte — résumé des conversations précédentes pour continuer..."

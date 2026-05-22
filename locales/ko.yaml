@@ -952,3 +952,5 @@ setup:
   complete_start: hermes로 채팅 시작
   complete_gateway: '게이트웨이 실행: hermes gateway run'
   complete_docs: '문서 읽기: hermes help'
+
+  run_agent.compending_context: "🗜️ 컨텍스트 압축 중 — 이전 대화를 요약하여 계속합니다..."

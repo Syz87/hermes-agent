@@ -946,3 +946,5 @@ setup:
   complete_start: 'Начните общение с: hermes'
   complete_gateway: 'Запустите шлюз: hermes gateway run'
   complete_docs: 'Прочитайте документацию: hermes help'
+
+  run_agent.compending_context: "🗜️ Сжатие контекста — подведение итогов предыдущих разговоров для продолжения..."

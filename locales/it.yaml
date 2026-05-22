@@ -1034,3 +1034,5 @@ setup:
   tools_image_gen: 'Attivare la generazione di immagini? (s/n):'
   tools_tts: 'Attivare la sintesi vocale? (s/n):'
   tools_web_search: 'Attivare la ricerca web? (s/n):'
+
+  run_agent.compending_context: "🗜️ Compressione del contesto — riepilogo delle conversazioni precedenti per continuare..."

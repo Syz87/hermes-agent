@@ -1042,3 +1042,5 @@ setup:
   tools_image_gen: '¿Activar generación de imágenes? (s/n):'
   tools_tts: '¿Activar texto a voz? (s/n):'
   tools_web_search: '¿Activar búsqueda web? (s/n):'
+
+  run_agent.compending_context: "🗜️ Compactando contexto — resumiendo conversaciones anteriores para continuar..."

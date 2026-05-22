@@ -1025,3 +1025,5 @@ setup:
   complete_start: 'Start chatting with: hermes'
   complete_gateway: 'Run the gateway: hermes gateway run'
   complete_docs: 'Read the docs: hermes help'
+
+  run_agent.compending_context: "🗜️ Compacting context — summarizing earlier conversation so I can continue..."
