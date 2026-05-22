@@ -2305,7 +2305,7 @@ class SlackAdapter(BasePlatformAdapter):
 
             kwargs: Dict[str, Any] = {
                 "channel": chat_id,
-                "text": t("platform.approval_required", command=cmd_preview[:100]),
+                "text": f"⚠️ Command approval required: {cmd_preview[:100]}",
                 "blocks": blocks,
             }
             if thread_ts:
@@ -2523,10 +2523,10 @@ class SlackAdapter(BasePlatformAdapter):
 
         # Update the message to show the decision and remove buttons
         label_map = {
-            "once": t("platform.approved_once", user=user_name),
-            "session": t("platform.approved_session", user=user_name),
-            "always": t("platform.approved_permanently", user=user_name),
-            "deny": t("platform.denied", user=user_name),
+            "once": f"✅ Approved once by {user_name}",
+            "session": f"✅ Approved for session by {user_name}",
+            "always": f"✅ Approved permanently by {user_name}",
+            "deny": f"❌ Denied by {user_name}",
         }
         decision_text = label_map.get(choice, f"Resolved by {user_name}")
 

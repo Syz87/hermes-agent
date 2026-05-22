@@ -231,7 +231,7 @@ def _approval_label(choice: str) -> str:
         "always": t("platform.approved_always"),
         "deny": t("platform.denied"),
     }
-    return labels.get(choice, t("platform.feishu.resolved"))
+    return labels.get(choice, "Resolved")
 _FEISHU_BOT_MSG_TRACK_SIZE = 512                   # LRU size for tracking sent message IDs
 _FEISHU_REPLY_FALLBACK_CODES = frozenset({230011, 231003})  # reply target withdrawn/missing → create fallback
 
@@ -2012,15 +2012,15 @@ class FeishuAdapter(BasePlatformAdapter):
     @staticmethod
     def _build_resolved_update_prompt_card(*, answer: str, user_name: str) -> Dict[str, Any]:
         yes = answer == "y"
-        label = t("platform.feishu.yes") if yes else t("platform.feishu.no")
+        label = "Yes" if yes else "No"
         return {
             "config": {"wide_screen_mode": True},
             "header": {
-                "title": {"content": t("platform.update_prompt_answered", label=label), "tag": "plain_text"},
+                "title": {"content": f"{'✅' if yes else '❌'} Update prompt answered: {label}", "tag": "plain_text"},
                 "template": "green" if yes else "red",
             },
             "elements": [
-                {"tag": "markdown", "content": t("platform.feishu.answered_by", user=user_name)},
+                {"tag": "markdown", "content": f"Answered by **{user_name}**"},
             ],
         }
 

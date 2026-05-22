@@ -330,7 +330,9 @@ def compress_context(
         if getattr(agent, "_last_compression_summary_warning", None) != _err:
             agent._last_compression_summary_warning = _err
             agent._emit_warning(
-                t("run_agent.compression_aborted", error=_err)
+                f"⚠ Compression aborted: {_err}. "
+                "No messages were dropped — conversation continues unchanged. "
+                "Run /compress to retry, or /new to start a fresh session."
             )
         _existing_sp = getattr(agent, "_cached_system_prompt", None)
         if not _existing_sp:
@@ -342,7 +344,8 @@ def compress_context(
         if getattr(agent, "_last_compression_summary_warning", None) != summary_error:
             agent._last_compression_summary_warning = summary_error
             agent._emit_warning(
-                t("run_agent.compression_failed", error=summary_error)
+                f"⚠ Compression summary failed: {summary_error}. "
+                "Inserted a fallback context marker."
             )
     else:
         # No hard failure — but did the configured aux model error out
@@ -357,9 +360,9 @@ def compress_context(
             if getattr(agent, "_last_aux_fallback_warning_key", None) != _aux_key:
                 agent._last_aux_fallback_warning_key = _aux_key
                 agent._emit_warning(
-                    t("run_agent.aux_model_failed",
-                      model=_aux_fail_model,
-                      error=_aux_fail_err or "unknown error")
+                    f"ℹ Configured compression model '{_aux_fail_model}' failed "
+                    f"({_aux_fail_err or 'unknown error'}). Recovered using main model — "
+                    "check auxiliary.compression.model in config.yaml."
                 )
 
     todo_snapshot = agent._todo_store.format_for_injection()
@@ -379,12 +382,12 @@ def compress_context(
             agent._session_db.end_session(agent.session_id, "compression")
             old_session_id = agent.session_id
             agent.session_id = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:6]}"
+            os.environ["HERMES_SESSION_ID"] = agent.session_id
             try:
-                from gateway.session_context import set_current_session_id
-
-                set_current_session_id(agent.session_id)
+                from gateway.session_context import _SESSION_ID
+                _SESSION_ID.set(agent.session_id)
             except Exception:
-                os.environ["HERMES_SESSION_ID"] = agent.session_id
+                pass
             agent._session_db_created = False
             agent._session_db.create_session(
                 session_id=agent.session_id,
