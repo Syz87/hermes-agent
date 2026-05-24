@@ -11,6 +11,66 @@ approval:
   denied: ✗ अस्वीकृत
   cancelled: ✗ रद्द
   blocklist_message: यह कमांड बिना शर्त ब्लॉकलिस्ट में है और इसे अनुमत नहीं किया जा सकता।
+  reason:
+    delete_root_path: delete in root path
+    recursive_delete: recursive delete
+    recursive_delete_long: recursive delete (long flag)
+    world_writable: world/other-writable permissions
+    recursive_world_writable: recursive world/other-writable (long flag)
+    recursive_chown_root: recursive chown to root
+    recursive_chown_root_long: recursive chown to root (long flag)
+    format_filesystem: format filesystem
+    format_filesystem_mkfs: format filesystem (mkfs)
+    disk_copy: disk copy
+    write_block_device: write to block device
+    redirect_block_device: redirect to raw block device
+    dd_block_device: dd to raw block device
+    sql_drop: SQL DROP
+    sql_delete_no_where: SQL DELETE without WHERE
+    sql_truncate: SQL TRUNCATE
+    overwrite_system_config: overwrite system config
+    stop_restart_service: stop/restart system service
+    kill_all_processes: kill all processes
+    force_kill: force kill processes
+    force_kill_killall: force kill processes (killall -KILL)
+    force_kill_killall_s: force kill processes (killall -s KILL)
+    kill_by_regex: kill processes by regex (killall -r)
+    fork_bomb: fork bomb
+    shell_c_flag: shell command via -c/-lc flag
+    script_execution_flag: script execution via -e/-c flag
+    pipe_remote_shell: pipe remote content to shell
+    exec_remote_substitution: execute remote script via process substitution
+    overwrite_system_tee: overwrite system file via tee
+    overwrite_system_redirect: overwrite system file via redirection
+    overwrite_project_tee: overwrite project env/config via tee
+    overwrite_project_redirect: overwrite project env/config via redirection
+    xargs_rm: xargs with rm
+    find_exec_rm: find -exec/-execdir rm
+    find_delete: find -delete
+    stop_restart_gateway: stop/restart hermes gateway (kills running agents)
+    hermes_update: hermes update (restarts gateway, kills running agents)
+    gateway_outside_systemd: start gateway outside systemd (use 'systemctl --user restart hermes-gateway')
+    kill_gateway: kill hermes/gateway process (self-termination)
+    kill_pgrep: kill process via pgrep expansion (self-termination)
+    kill_pgrep_backtick: kill process via backtick pgrep expansion (self-termination)
+    copy_into_system_config: copy/move file into system config path
+    overwrite_project_file: overwrite project env/config file
+    inplace_edit_system: in-place edit of system config
+    inplace_edit_system_long: in-place edit of system config (long flag)
+    script_heredoc: script execution via heredoc
+    git_reset_hard: git reset --hard (destroys uncommitted changes)
+    git_force_push: git force push (rewrites remote history)
+    git_force_push_short: git force push short flag (rewrites remote history)
+    git_clean_force: git clean with force (deletes uncommitted files)
+    git_branch_force_delete: git branch force delete
+    chmod_exec: chmod +x followed by immediate execution
+    recursive_delete_home: recursive delete of home directory
+    recursive_delete_root: recursive delete of root filesystem
+    recursive_delete_system: recursive delete of system directory
+    sudo_privilege_flag: sudo with privilege flag (stdin/askpass/shell/list)
+    sudo_combined_flag: sudo with combined-flag privilege escalation
+    security_scan_prefix: Security scan
+    security_issue_detected: security issue detected
 gateway:
   approval_expired: ⚠️ अनुमति समाप्त हो गई (एजेंट अब प्रतीक्षा नहीं कर रहा)। एजेंट से फिर से प्रयास करने के लिए कहें।
   draining: ⏳ पुनरारंभ से पहले {count} सक्रिय एजेंट(ओं) को समाप्त किया जा रहा है...
@@ -406,6 +466,11 @@ gateway:
     tip: '
 
       ✦ सुझाव: {tip}'
+    info_model: '◆ Model: `{model}`'
+    info_provider: '◆ Provider: {provider}'
+    info_context: '◆ Context: {ctx_display} tokens ({ctx_source})'
+    info_endpoint: '◆ Endpoint: {base_url}'
+    ctx_source_default: default — set model.context_length in config to override
   restart:
     in_progress: ⏳ गेटवे पुनरारंभ पहले से चल रहा है...
     restarting: ♻ गेटवे पुनरारंभ। यदि 60 सेकंड में सूचित नहीं होते, तो कंसोल से `hermes gateway restart` चलाएं।
@@ -577,6 +642,30 @@ gateway:
     session_db_unavailable_prefix: सत्र डेटाबेस उपलब्ध नहीं
     session_not_found: सत्र डेटाबेस में नहीं मिला।
     warn_passthrough: ⚠️ {error}
+  queue:
+    usage: 'Usage: /queue <prompt>'
+    queued: Queued for the next turn.
+    queued_depth: Queued for the next turn. ({depth} queued)
+  steer:
+    usage: 'Usage: /steer <prompt>'
+    starting_queued: Agent still starting — /steer queued for the next turn.
+    queued: '⏩ Steer queued — arrives after the next tool call: ''{preview}'''
+    rejected_empty: Steer rejected (empty payload).
+    no_agent_queued: No active agent — /steer queued for the next turn.
+    usage_no_agent: 'Usage: /steer <prompt>  (no agent is running; sending as a normal message)'
+  agent_running:
+    wait_or_stop: Agent is running — wait or /stop first, then switch models.
+    goal_hint: Agent is running — use /goal status / pause / clear mid-run, or /stop before setting a new goal.
+    hook_blocked: Command `/{command}` was blocked by a hook.
+  quick:
+    timed_out: Quick command timed out (30s).
+    error: 'Quick command error: {error}'
+    no_command: Quick command '/{command}' has no command defined.
+    no_target: Quick command '/{command}' has no target defined.
+    unsupported_type: 'Quick command ''/{command}'' has unsupported type (supported: ''exec'', ''alias'').'
+  usage_cmd:
+    platform: 'Usage: /platform {action} <name>'
+    subgoal_remove: 'Usage: /subgoal remove <n>'
 platform:
   update_prompt_answered: 'अपडेट संकेत का उत्तर दिया: {label}'
   approval_required: 'कमांड अनुमति आवश्यक: {command}'
@@ -981,3 +1070,5 @@ setup:
   complete_start: 'चैटिंग शुरू करें: hermes'
   complete_gateway: 'गेटवे चलाएं: hermes gateway run'
   complete_docs: 'दस्तावेज़ पढ़ें: hermes help'
+  run_agent:
+    compending_context: 🗜️ Compacting context — summarizing earlier conversation to continue...

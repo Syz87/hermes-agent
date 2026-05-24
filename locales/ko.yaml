@@ -11,6 +11,66 @@ approval:
   denied: '      ✗ 거부됨'
   cancelled: '      ✗ 취소됨'
   blocklist_message: 이 명령은 무조건 차단 목록에 있으며 승인할 수 없습니다.
+  reason:
+    delete_root_path: delete in root path
+    recursive_delete: recursive delete
+    recursive_delete_long: recursive delete (long flag)
+    world_writable: world/other-writable permissions
+    recursive_world_writable: recursive world/other-writable (long flag)
+    recursive_chown_root: recursive chown to root
+    recursive_chown_root_long: recursive chown to root (long flag)
+    format_filesystem: format filesystem
+    format_filesystem_mkfs: format filesystem (mkfs)
+    disk_copy: disk copy
+    write_block_device: write to block device
+    redirect_block_device: redirect to raw block device
+    dd_block_device: dd to raw block device
+    sql_drop: SQL DROP
+    sql_delete_no_where: SQL DELETE without WHERE
+    sql_truncate: SQL TRUNCATE
+    overwrite_system_config: overwrite system config
+    stop_restart_service: stop/restart system service
+    kill_all_processes: kill all processes
+    force_kill: force kill processes
+    force_kill_killall: force kill processes (killall -KILL)
+    force_kill_killall_s: force kill processes (killall -s KILL)
+    kill_by_regex: kill processes by regex (killall -r)
+    fork_bomb: fork bomb
+    shell_c_flag: shell command via -c/-lc flag
+    script_execution_flag: script execution via -e/-c flag
+    pipe_remote_shell: pipe remote content to shell
+    exec_remote_substitution: execute remote script via process substitution
+    overwrite_system_tee: overwrite system file via tee
+    overwrite_system_redirect: overwrite system file via redirection
+    overwrite_project_tee: overwrite project env/config via tee
+    overwrite_project_redirect: overwrite project env/config via redirection
+    xargs_rm: xargs with rm
+    find_exec_rm: find -exec/-execdir rm
+    find_delete: find -delete
+    stop_restart_gateway: stop/restart hermes gateway (kills running agents)
+    hermes_update: hermes update (restarts gateway, kills running agents)
+    gateway_outside_systemd: start gateway outside systemd (use 'systemctl --user restart hermes-gateway')
+    kill_gateway: kill hermes/gateway process (self-termination)
+    kill_pgrep: kill process via pgrep expansion (self-termination)
+    kill_pgrep_backtick: kill process via backtick pgrep expansion (self-termination)
+    copy_into_system_config: copy/move file into system config path
+    overwrite_project_file: overwrite project env/config file
+    inplace_edit_system: in-place edit of system config
+    inplace_edit_system_long: in-place edit of system config (long flag)
+    script_heredoc: script execution via heredoc
+    git_reset_hard: git reset --hard (destroys uncommitted changes)
+    git_force_push: git force push (rewrites remote history)
+    git_force_push_short: git force push short flag (rewrites remote history)
+    git_clean_force: git clean with force (deletes uncommitted files)
+    git_branch_force_delete: git branch force delete
+    chmod_exec: chmod +x followed by immediate execution
+    recursive_delete_home: recursive delete of home directory
+    recursive_delete_root: recursive delete of root filesystem
+    recursive_delete_system: recursive delete of system directory
+    sudo_privilege_flag: sudo with privilege flag (stdin/askpass/shell/list)
+    sudo_combined_flag: sudo with combined-flag privilege escalation
+    security_scan_prefix: Security scan
+    security_issue_detected: security issue detected
 gateway:
   approval_expired: ⚠️ 승인이 만료되었습니다 (에이전트가 더 이상 대기하지 않음). 에이전트에게 다시 시도해 달라고 하세요.
   draining: 🔌 게이트웨이 종료 중 — {count}개의 대기 중인 요청이 있습니다.
@@ -310,6 +370,11 @@ gateway:
     tip: '
 
       ✦ 팁: {tip}'
+    info_model: '◆ Model: `{model}`'
+    info_provider: '◆ Provider: {provider}'
+    info_context: '◆ Context: {ctx_display} tokens ({ctx_source})'
+    info_endpoint: '◆ Endpoint: {base_url}'
+    ctx_source_default: default — set model.context_length in config to override
   restart:
     in_progress: ⏳ 게이트웨이 재시작이 이미 진행 중입니다...
     restarting: ♻ 게이트웨이를 재시작 중입니다. 60초 이내에 알림이 오지 않으면 콘솔에서 `hermes gateway restart`로 재시작하세요.
@@ -560,6 +625,30 @@ gateway:
     session_not_found: 데이터베이스에서 세션을 찾을 수 없습니다.
     warn_passthrough: ⚠️ {error}
   interrupting: ⚡ 현재 작업 중단 중{detail}. 곧 응답하겠습니다.
+  queue:
+    usage: 'Usage: /queue <prompt>'
+    queued: Queued for the next turn.
+    queued_depth: Queued for the next turn. ({depth} queued)
+  steer:
+    usage: 'Usage: /steer <prompt>'
+    starting_queued: Agent still starting — /steer queued for the next turn.
+    queued: '⏩ Steer queued — arrives after the next tool call: ''{preview}'''
+    rejected_empty: Steer rejected (empty payload).
+    no_agent_queued: No active agent — /steer queued for the next turn.
+    usage_no_agent: 'Usage: /steer <prompt>  (no agent is running; sending as a normal message)'
+  agent_running:
+    wait_or_stop: Agent is running — wait or /stop first, then switch models.
+    goal_hint: Agent is running — use /goal status / pause / clear mid-run, or /stop before setting a new goal.
+    hook_blocked: Command `/{command}` was blocked by a hook.
+  quick:
+    timed_out: Quick command timed out (30s).
+    error: 'Quick command error: {error}'
+    no_command: Quick command '/{command}' has no command defined.
+    no_target: Quick command '/{command}' has no target defined.
+    unsupported_type: 'Quick command ''/{command}'' has unsupported type (supported: ''exec'', ''alias'').'
+  usage_cmd:
+    platform: 'Usage: /platform {action} <name>'
+    subgoal_remove: 'Usage: /subgoal remove <n>'
 platform:
   update_prompt_answered: '업데이트 프롬프트 답변: {label}'
   approval_required: '명령 승인 필요: {command}'
@@ -952,5 +1041,4 @@ setup:
   complete_start: hermes로 채팅 시작
   complete_gateway: '게이트웨이 실행: hermes gateway run'
   complete_docs: '문서 읽기: hermes help'
-
-  run_agent.compending_context: "🗜️ 컨텍스트 압축 중 — 이전 대화를 요약하여 계속합니다..."
+  run_agent.compending_context: 🗜️ 컨텍스트 압축 중 — 이전 대화를 요약하여 계속합니다...

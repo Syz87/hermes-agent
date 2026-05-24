@@ -11,6 +11,66 @@ approval:
   denied: '      ✗ 已拒绝'
   cancelled: '      ✗ 已取消'
   blocklist_message: 此命令位于无条件拦截列表中，无法被批准。
+  reason:
+    delete_root_path: 删除根路径文件
+    recursive_delete: 递归删除
+    recursive_delete_long: 递归删除（长参数）
+    world_writable: 全局可写权限
+    recursive_world_writable: 递归全局可写（长参数）
+    recursive_chown_root: 递归 chown 到 root
+    recursive_chown_root_long: 递归 chown 到 root（长参数）
+    format_filesystem: 格式化文件系统
+    format_filesystem_mkfs: 格式化文件系统（mkfs）
+    disk_copy: 磁盘复制
+    write_block_device: 写入块设备
+    redirect_block_device: 重定向到原始块设备
+    dd_block_device: dd 写入原始块设备
+    sql_drop: SQL DROP 删除表/库
+    sql_delete_no_where: SQL DELETE 无 WHERE 条件
+    sql_truncate: SQL TRUNCATE 清空表
+    overwrite_system_config: 覆盖系统配置
+    stop_restart_service: 停止/重启系统服务
+    kill_all_processes: 杀死所有进程
+    force_kill: 强制杀死进程
+    force_kill_killall: 强制杀死进程（killall -KILL）
+    force_kill_killall_s: 强制杀死进程（killall -s KILL）
+    kill_by_regex: 按正则杀死进程（killall -r）
+    fork_bomb: fork 炸弹
+    shell_c_flag: 通过 -c/-lc 标志执行 shell 命令
+    script_execution_flag: 通过 -e/-c 标志执行脚本
+    pipe_remote_shell: 管道远程内容到 shell
+    exec_remote_substitution: 通过进程替换执行远程脚本
+    overwrite_system_tee: 通过 tee 覆盖系统文件
+    overwrite_system_redirect: 通过重定向覆盖系统文件
+    overwrite_project_tee: 通过 tee 覆盖项目配置
+    overwrite_project_redirect: 通过重定向覆盖项目配置
+    xargs_rm: xargs 配合 rm
+    find_exec_rm: find -exec/-execdir rm
+    find_delete: find -delete
+    stop_restart_gateway: 停止/重启 Hermes 网关（会终止运行中的代理）
+    hermes_update: Hermes 更新（会重启网关，终止运行中的代理）
+    gateway_outside_systemd: 在 systemd 外启动网关（应使用 systemctl --user restart hermes-gateway）
+    kill_gateway: 杀死 Hermes/网关进程（自终止）
+    kill_pgrep: 通过 pgrep 扩展杀死进程（自终止）
+    kill_pgrep_backtick: 通过反引号 pgrep 扩展杀死进程（自终止）
+    copy_into_system_config: 复制/移动文件到系统配置路径
+    overwrite_project_file: 覆盖项目配置文件
+    inplace_edit_system: 就地编辑系统配置
+    inplace_edit_system_long: 就地编辑系统配置（长参数）
+    script_heredoc: 通过 heredoc 执行脚本
+    git_reset_hard: git reset --hard（丢失未提交的更改）
+    git_force_push: git force push（重写远程历史）
+    git_force_push_short: git force push 短参数（重写远程历史）
+    git_clean_force: git clean -f（删除未跟踪文件）
+    git_branch_force_delete: git branch 强制删除分支
+    chmod_exec: chmod +x 后立即执行
+    recursive_delete_home: 递归删除主目录
+    recursive_delete_root: 递归删除根文件系统
+    recursive_delete_system: 递归删除系统目录
+    sudo_privilege_flag: sudo 特权标志（stdin/askpass/shell/list）
+    sudo_combined_flag: sudo 组合标志提权
+    security_scan_prefix: 安全扫描
+    security_issue_detected: 检测到安全问题
 agent:
   rate_limited_fallback: ⚠️ 请求频率受限 — 正在切换到备用提供方...
   stream_interrupted: ↻ 流式传输中断 — 使用已传输内容作为最终回复
@@ -395,6 +455,11 @@ gateway:
     tip: '
 
       ✦ 提示：{tip}'
+    info_model: ◆ 模型：`{model}`
+    info_provider: ◆ 提供商：{provider}
+    info_context: ◆ 上下文：{ctx_display} tokens（{ctx_source}）
+    info_endpoint: ◆ 端点：{base_url}
+    ctx_source_default: 默认值 — 在 config 中设置 model.context_length 覆盖
   restart:
     in_progress: ⏳ 网关重启已在进行中……
     restarting: ♻ 正在重启网关。如果 60 秒内没有收到通知，请在控制台运行 `hermes gateway restart` 重启。
@@ -672,6 +737,30 @@ gateway:
     session_db_unavailable_prefix: 会话数据库不可用
     session_not_found: 数据库中未找到该会话。
     warn_passthrough: '⚠️ 直通模式: {error}'
+  queue:
+    usage: 用法：/queue <提示>
+    queued: 已排队等待下一轮。
+    queued_depth: 已排队等待下一轮。（{depth} 条排队中）
+  steer:
+    usage: 用法：/steer <提示>
+    starting_queued: 代理仍在启动 — /steer 已排队等待下一轮。
+    queued: ⏩ 已引导 — 将在下一次工具调用后到达：'{preview}'
+    rejected_empty: 引导被拒绝（内容为空）。
+    no_agent_queued: 没有活跃代理 — /steer 已排队等待下一轮。
+    usage_no_agent: 用法：/steer <提示>（没有运行中的代理；将作为普通消息发送）
+  agent_running:
+    wait_or_stop: 代理正在运行 — 请先等待或 /stop，然后再切换模型。
+    goal_hint: 代理正在运行 — 使用 /goal status / pause / clear 在运行中管理目标，或 /stop 后再设置新目标。
+    hook_blocked: 命令 `/{command}` 被钩子拦截。
+  quick:
+    timed_out: 快捷命令超时（30秒）。
+    error: 快捷命令错误：{error}
+    no_command: 快捷命令 '/{command}' 未定义命令。
+    no_target: 快捷命令 '/{command}' 未定义目标。
+    unsupported_type: 快捷命令 '/{command}' 不支持的类型（支持：'exec'、'alias'）。
+  usage_cmd:
+    platform: 用法：/platform {action} <名称>
+    subgoal_remove: 用法：/subgoal remove <n>
 run_agent:
   self_improvement_review: 💾 自我改进审查：{summary}
   compacting_context: 🗜️ 压缩上下文 — 正在总结早期对话以便继续……
@@ -991,5 +1080,4 @@ setup:
   complete_start: 开始聊天：hermes
   complete_gateway: 运行网关：hermes gateway run
   complete_docs: 查看文档：hermes help
-
-  run_agent.compending_context: "🗜️ 正在压缩上下文——总结之前的对话以便继续..."
+  run_agent.compending_context: 🗜️ 正在压缩上下文——总结之前的对话以便继续...

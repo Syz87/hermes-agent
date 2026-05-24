@@ -11,6 +11,66 @@ approval:
   denied: '      ✗ ถูกปฏิเสธ'
   cancelled: '      ✗ ถูกยกเลิก'
   blocklist_message: คำสั่งนี้อยู่ในบัญชีดำและไม่สามารถอนุมัติได้
+  reason:
+    delete_root_path: delete in root path
+    recursive_delete: recursive delete
+    recursive_delete_long: recursive delete (long flag)
+    world_writable: world/other-writable permissions
+    recursive_world_writable: recursive world/other-writable (long flag)
+    recursive_chown_root: recursive chown to root
+    recursive_chown_root_long: recursive chown to root (long flag)
+    format_filesystem: format filesystem
+    format_filesystem_mkfs: format filesystem (mkfs)
+    disk_copy: disk copy
+    write_block_device: write to block device
+    redirect_block_device: redirect to raw block device
+    dd_block_device: dd to raw block device
+    sql_drop: SQL DROP
+    sql_delete_no_where: SQL DELETE without WHERE
+    sql_truncate: SQL TRUNCATE
+    overwrite_system_config: overwrite system config
+    stop_restart_service: stop/restart system service
+    kill_all_processes: kill all processes
+    force_kill: force kill processes
+    force_kill_killall: force kill processes (killall -KILL)
+    force_kill_killall_s: force kill processes (killall -s KILL)
+    kill_by_regex: kill processes by regex (killall -r)
+    fork_bomb: fork bomb
+    shell_c_flag: shell command via -c/-lc flag
+    script_execution_flag: script execution via -e/-c flag
+    pipe_remote_shell: pipe remote content to shell
+    exec_remote_substitution: execute remote script via process substitution
+    overwrite_system_tee: overwrite system file via tee
+    overwrite_system_redirect: overwrite system file via redirection
+    overwrite_project_tee: overwrite project env/config via tee
+    overwrite_project_redirect: overwrite project env/config via redirection
+    xargs_rm: xargs with rm
+    find_exec_rm: find -exec/-execdir rm
+    find_delete: find -delete
+    stop_restart_gateway: stop/restart hermes gateway (kills running agents)
+    hermes_update: hermes update (restarts gateway, kills running agents)
+    gateway_outside_systemd: start gateway outside systemd (use 'systemctl --user restart hermes-gateway')
+    kill_gateway: kill hermes/gateway process (self-termination)
+    kill_pgrep: kill process via pgrep expansion (self-termination)
+    kill_pgrep_backtick: kill process via backtick pgrep expansion (self-termination)
+    copy_into_system_config: copy/move file into system config path
+    overwrite_project_file: overwrite project env/config file
+    inplace_edit_system: in-place edit of system config
+    inplace_edit_system_long: in-place edit of system config (long flag)
+    script_heredoc: script execution via heredoc
+    git_reset_hard: git reset --hard (destroys uncommitted changes)
+    git_force_push: git force push (rewrites remote history)
+    git_force_push_short: git force push short flag (rewrites remote history)
+    git_clean_force: git clean with force (deletes uncommitted files)
+    git_branch_force_delete: git branch force delete
+    chmod_exec: chmod +x followed by immediate execution
+    recursive_delete_home: recursive delete of home directory
+    recursive_delete_root: recursive delete of root filesystem
+    recursive_delete_system: recursive delete of system directory
+    sudo_privilege_flag: sudo with privilege flag (stdin/askpass/shell/list)
+    sudo_combined_flag: sudo with combined-flag privilege escalation
+    security_scan_prefix: Security scan
+    security_issue_detected: security issue detected
 gateway:
   approval_expired: ⚠️ การอนุมัติหมดอายุแล้ว (เจ้าหน้าที่ไม่รออีกต่อไป) ลองใหม่อีกครั้ง
   draining: ⏳ กำลังระบายเจ้าหน้าที่ที่ทำงานอยู่ {count} รายก่อนรีสตาร์ท...
@@ -99,12 +159,12 @@ gateway:
     no_provider: ไม่ได้ตั้งค่าผู้ให้บริการ — ไม่สามารถบีบอัดได้
     nothing_to_do: ยังไม่มีสิ่งที่ต้องบีบอัด (ข้อความยังเป็นบริบทที่ได้รับการคุ้มครองทั้งหมด)
     focus_line: 'หัวข้อ: "{topic}"'
-    summary_failed: ⚠️ การสร้างสรุปล้มเหลว ({error}) ข้อความประวัติ {count} ข้อความถูกลบและแทนที่ด้วย
-      placeholder — บริบทก่อนหน้าไม่สามารถกู้คืนได้แล้ว ควรตรวจสอบการตั้งค่าโมเดล auxiliary.compression ของคุณ
-    aborted: ⚠️ การบีบอัดถูกยกเลิก ({error}) ไม่มีข้อความถูกลบ — การสนทนาไม่เปลี่ยนแปลง รัน /compress เพื่อลองใหม่
-      /reset เพื่อเริ่มเซสชันใหม่ หรือตรวจสอบการตั้งค่าโมเดล auxiliary.compression ของคุณ
-    aux_failed: ℹ️ โมเดลบีบอัด `{model}` ที่ตั้งค่าไว้ล้มเหลว ({error}) กู้คืนด้วยโมเดลหลักของคุณแล้ว — บริบทยังสมบูรณ์
-      — แต่คุณอาจต้องการตรวจสอบ `auxiliary.compression.model` ใน config.yaml
+    summary_failed: ⚠️ การสร้างสรุปล้มเหลว ({error}) ข้อความประวัติ {count} ข้อความถูกลบและแทนที่ด้วย placeholder — บริบทก่อนหน้าไม่สามารถกู้คืนได้แล้ว
+      ควรตรวจสอบการตั้งค่าโมเดล auxiliary.compression ของคุณ
+    aborted: ⚠️ การบีบอัดถูกยกเลิก ({error}) ไม่มีข้อความถูกลบ — การสนทนาไม่เปลี่ยนแปลง รัน /compress เพื่อลองใหม่ /reset
+      เพื่อเริ่มเซสชันใหม่ หรือตรวจสอบการตั้งค่าโมเดล auxiliary.compression ของคุณ
+    aux_failed: ℹ️ โมเดลบีบอัด `{model}` ที่ตั้งค่าไว้ล้มเหลว ({error}) กู้คืนด้วยโมเดลหลักของคุณแล้ว — บริบทยังสมบูรณ์ —
+      แต่คุณอาจต้องการตรวจสอบ `auxiliary.compression.model` ใน config.yaml
     failed: 'การบีบอัดล้มเหลว: {error}'
   debug:
     upload_failed: '✗ อัปโหลดรายงาน debug ล้มเหลว: {error}'
@@ -225,13 +285,12 @@ gateway:
 
       _วิธีใช้:_ `/reasoning <none|minimal|low|medium|high|xhigh|reset|show|hide> [--global]`'
     display_on: เปิด ✓
-    display_off: 'ปิด'
+    display_off: ปิด
     display_set_on: '🧠 ✓ แสดงผลการให้เหตุผล: **เปิด**
 
       ความคิดของโมเดลจะแสดงก่อนทุกคำตอบบน **{platform}**'
     display_set_off: '🧠 ✓ แสดงผลการให้เหตุผล: **ปิด** สำหรับ **{platform}**'
-    reset_global_unsupported: ⚠️ ไม่รองรับ `/reasoning reset --global` ใช้ `/reasoning <level> --global` เพื่อเปลี่ยน
-      ค่าเริ่มต้นทั่วโลก
+    reset_global_unsupported: ⚠️ ไม่รองรับ `/reasoning reset --global` ใช้ `/reasoning <level> --global` เพื่อเปลี่ยน ค่าเริ่มต้นทั่วโลก
     reset_done: 🧠 ✓ ล้างการ Override ระดับการให้เหตุผลของเซสชันแล้ว — กลับไปใช้การตั้งค่าทั่วโลก
     unknown_arg: '⚠️ ไม่รู้จักอาร์กิวเมนต์: `{arg}`
 
@@ -252,10 +311,12 @@ gateway:
       _(จะมีผลในข้อความถัดไป)_'
   reload_mcp:
     cancelled: 🟡 ยกเลิก /reload-mcp แล้ว เครื่องมือ MCP ไม่เปลี่ยนแปลง
-    always_followup: 'ℹ️ คำสั่ง `/reload-mcp` ในอนาคตจะรันโดยไม่ถามยืนยัน เปิดใช้ใหม่ผ่าน `approvals.mcp_reload_confirm: true` ใน config.yaml'
+    always_followup: 'ℹ️ คำสั่ง `/reload-mcp` ในอนาคตจะรันโดยไม่ถามยืนยัน เปิดใช้ใหม่ผ่าน `approvals.mcp_reload_confirm: true`
+      ใน config.yaml'
     confirm_prompt: '⚠️ **ยืนยัน /reload-mcp**
 
-      การโหลด MCP ใหม่จะสร้างชุดเครื่องมือสำหรับเซสชันนี้ใหม่และ**ทำให้แคชคำสั่งของผู้ให้บริการไม่สามารถใช้ได้** — ข้อความถัดไปจะส่ง input tokens ทั้งหมดใหม่ สำหรับโมเดลบริบทยาวหรือการให้เหตุผลสูง อาจมีค่าใช้จ่ายสูง
+      การโหลด MCP ใหม่จะสร้างชุดเครื่องมือสำหรับเซสชันนี้ใหม่และ**ทำให้แคชคำสั่งของผู้ให้บริการไม่สามารถใช้ได้** — ข้อความถัดไปจะส่ง
+      input tokens ทั้งหมดใหม่ สำหรับโมเดลบริบทยาวหรือการให้เหตุผลสูง อาจมีค่าใช้จ่ายสูง
 
       เลือก:
 
@@ -306,29 +367,30 @@ gateway:
     tip: '
 
       ✦ เคล็ดลับ: {tip}'
+    info_model: '◆ Model: `{model}`'
+    info_provider: '◆ Provider: {provider}'
+    info_context: '◆ Context: {ctx_display} tokens ({ctx_source})'
+    info_endpoint: '◆ Endpoint: {base_url}'
+    ctx_source_default: default — set model.context_length in config to override
   restart:
     in_progress: ⏳ การรีสตาร์ท Gateway กำลังดำเนินอยู่...
     restarting: ♻ กำลังรีสตาร์ท Gateway หากคุณไม่ได้รับแจ้งภายใน 60 วินาที รีสตาร์ทจากคอนโซลด้วย `hermes gateway restart`
     success: ♻ รีสตาร์ท Gateway สำเร็จแล้ว เซสชันของคุณยังคงดำเนินต่อไป
     shutting_down: ⏳ กำลังปิด Gateway — งานปัจจุบันของคุณจะถูกขัดจังหวะ
-    restarting_hint: ⏳ กำลังรีสตาร์ท Gateway — งานปัจจุบันของคุณจะถูกขัดจังหวะ ส่งข้อความใดก็ได้หลังรีสตาร์ทแล้วผมจะ
-      พยายามกลับมาทำต่อจากจุดที่คุณค้างไว้
+    restarting_hint: ⏳ กำลังรีสตาร์ท Gateway — งานปัจจุบันของคุณจะถูกขัดจังหวะ ส่งข้อความใดก็ได้หลังรีสตาร์ทแล้วผมจะ พยายามกลับมาทำต่อจากจุดที่คุณค้างไว้
   online: ♻️ Gateway ออนไลน์แล้ว — Hermes กลับมาพร้อมใช้งาน
   provider_auth_failed: ⚠️ การยืนยันตัวตนกับผู้ให้บริการล้มเหลว ตรวจสอบข้อมูลรับรองที่ตั้งค่าไว้ — ข้อมูลผู้ให้บริการดิบอยู่ใน
     บันทึก gateway
-  provider_rejected: ⚠️ ผู้ให้บริการโมเดลปฏิเสธคำขอ ผมเก็บข้อผิดพลาดดิบของผู้ให้บริการไว้นอกแชท — ตรวจสอบบันทึก gateway
-    เพื่อดูรายละเอียดหรือลองเขียนใหม่
+  provider_rejected: ⚠️ ผู้ให้บริการโมเดลปฏิเสธคำขอ ผมเก็บข้อผิดพลาดดิบของผู้ให้บริการไว้นอกแชท — ตรวจสอบบันทึก gateway เพื่อดูรายละเอียดหรือลองเขียนใหม่
   provider_rate_limited: ⏱️ ผู้ให้บริการโมเดลกำลังจำกัดอัตราคำขอ รอสักครู่แล้วลองใหม่อีกครั้ง
-  provider_failed: ⚠️ ผู้ให้บริการโมเดลล้มเหลวหลังจากลองซ้ำ ผมเก็บข้อมูลผู้ให้บริการดิบไว้นอกแชท — ตรวจสอบบันทึก gateway
-    เพื่อดูข้อมูลวินิจฉัย
+  provider_failed: ⚠️ ผู้ให้บริการโมเดลล้มเหลวหลังจากลองซ้ำ ผมเก็บข้อมูลผู้ให้บริการดิบไว้นอกแชท — ตรวจสอบบันทึก gateway เพื่อดูข้อมูลวินิจฉัย
   busy_queued: ⏳ Gateway กำลัง{action} — คิวรอเทิร์นถัดไปหลังกลับมา
   busy_rejecting: ⏳ Gateway กำลัง{action}และไม่รับเทิร์นใหม่ในตอนนี้
   busy_queued_detail: ⏳ คิวรอเทิร์นถัดไป{detail}
   busy_action_hint: ⏳ Gateway กำลัง{action} — {hint}
   action_restarting: กำลังรีสตาร์ท
   action_shutting_down: กำลังปิด
-  hint_interrupt_resume: งานปัจจุบันของคุณจะถูกขัดจังหวะ ส่งข้อความใดก็ได้หลังรีสตาร์ทแล้วผมจะพยายามกลับมาทำต่อจากจุดที่
-    คุณค้างไว้
+  hint_interrupt_resume: งานปัจจุบันของคุณจะถูกขัดจังหวะ ส่งข้อความใดก็ได้หลังรีสตาร์ทแล้วผมจะพยายามกลับมาทำต่อจากจุดที่ คุณค้างไว้
   hint_interrupt: งานปัจจุบันของคุณจะถูกขัดจังหวะ
   busy_agent_running: ⏳ เจ้าหน้าที่กำลังทำงานอยู่ — ไม่สามารถรัน `/{command}` ได้ในตอนนี้ ลองอีกครั้งหลังเทิร์นปัจจุบันเสร็จ
   busy_not_accepting: ⏳ Gateway กำลัง{action}และไม่รับงานใหม่ในตอนนี้
@@ -343,11 +405,9 @@ gateway:
 
     • `/new` — เริ่มใหม่พร้อมตั้งชื่อ'
   processing_stopped: '⚠️ การประมวลผลหยุดแล้ว: {error} ลองใหม่อีกครั้ง'
-  processing_no_response: ⚠️ การประมวลผลเสร็จสมบูรณ์แต่ไม่มีการสร้างคำตอบ บางครั้งเกิดขึ้นกับเซสชันยาวมาก
-    — ลองส่งข้อความอีกครั้ง
+  processing_no_response: ⚠️ การประมวลผลเสร็จสมบูรณ์แต่ไม่มีการสร้างคำตอบ บางครั้งเกิดขึ้นกับเซสชันยาวมาก — ลองส่งข้อความอีกครั้ง
   compression_aborted: ⚠️ การบีบอัดบริบทถูกยกเลิก ({error}) ไม่มีข้อความถูกลบ — การสนทนาไม่เปลี่ยนแปลง
-  no_response_after_tools: ⚠️ โมเดลไม่ได้ส่งคำตอบกลับหลังประมวลผลเครื่องมือ บางครั้งเกิดขึ้นกับเซสชันยาวมาก
-    — ลองส่งข้อความอีกครั้ง
+  no_response_after_tools: ⚠️ โมเดลไม่ได้ส่งคำตอบกลับหลังประมวลผลเครื่องมือ บางครั้งเกิดขึ้นกับเซสชันยาวมาก — ลองส่งข้อความอีกครั้ง
   bg_task_no_creds: '❌ งานพื้นหลัง {task_id} ล้มเหลว: ไม่มีข้อมูลรับรองผู้ให้บริการที่ตั้งค่าไว้'
   bg_task_failed: '❌ งานพื้นหลัง {task_id} ล้มเหลว: {error}'
   update_finished: ✅ อัปเดต Hermes เสร็จสมบูรณ์แล้ว
@@ -377,8 +437,7 @@ gateway:
   proxy_not_configured: ⚠️ ยังไม่ได้ตั้งค่า URL พร็อกซี (GATEWAY_PROXY_URL หรือ gateway.proxy_url)
   proxy_error: '⚠️ ข้อผิดพลาดพร็อกซี ({status}): {detail}'
   proxy_connection_error: '⚠️ ข้อผิดพลาดการเชื่อมต่อพร็อกซี: {error}'
-  session_auto_reset: 🔄 รีเซ็ตเซสชันอัตโนมัติ — การสนทนาเกินขีดจำกัดบริบทและถูกบีบอัดแล้ว ผมจะทำงานต่อ
-    จากจุดที่ค้างไว้
+  session_auto_reset: 🔄 รีเซ็ตเซสชันอัตโนมัติ — การสนทนาเกินขีดจำกัดบริบทและถูกบีบอัดแล้ว ผมจะทำงานต่อ จากจุดที่ค้างไว้
   bg_task_complete: '✅ งานพื้นหลังเสร็จสมบูรณ์
 
     คำสั่ง: "{preview}"
@@ -463,7 +522,7 @@ gateway:
     tokens: '**Tokens:** {tokens}'
     agent_running: '**เจ้าหน้าที่ทำงานอยู่:** {state}'
     state_yes: ใช่ ⚡
-    state_no: 'ไม่'
+    state_no: ไม่
     queued: '**คิวรอ:** {count}'
     platforms: '**แพลตฟอร์มที่เชื่อมต่อ:** {platforms}'
   stop:
@@ -486,8 +545,8 @@ gateway:
     not_telegram_dm: คำสั่ง /topic ใช้ได้เฉพาะในแชทส่วนตัวของ Telegram เท่านั้น
     no_session_db: ฐานข้อมูลเซสชันไม่พร้อมใช้งาน
     unauthorized: คุณไม่มีสิทธิ์ใช้ /topic บนบอทนี้
-    restore_needs_topic: เพื่อกู้คืนเซสชัน ให้สร้างหรือเปิด Telegram topic ก่อน แล้วส่ง /topic <session-id> ภายใน
-      topic นั้น เพื่อสร้าง topic ใหม่ ให้เปิด All Messages แล้วส่งข้อความใดก็ได้ที่นั้น
+    restore_needs_topic: เพื่อกู้คืนเซสชัน ให้สร้างหรือเปิด Telegram topic ก่อน แล้วส่ง /topic <session-id> ภายใน topic นั้น
+      เพื่อสร้าง topic ใหม่ ให้เปิด All Messages แล้วส่งข้อความใดก็ได้ที่นั้น
     topics_disabled: 'ยังไม่ได้เปิดใช้งาน Telegram topics สำหรับบอทนี้
 
 
@@ -524,8 +583,8 @@ gateway:
     thread_ready: 'Telegram multi-session topics เปิดใช้งานแล้ว
 
 
-      Topic นี้จะใช้เป็นเซสชัน Hermes อิสระ ใช้ /new เพื่อแทนที่เซสชันปัจจุบันของ topic นี้ สำหรับการทำงานแบบคู่ขนาน
-      ให้เปิด All Messages แล้วส่งข้อความที่นั่นเพื่อสร้าง topic อื่น'
+      Topic นี้จะใช้เป็นเซสชัน Hermes อิสระ ใช้ /new เพื่อแทนที่เซสชันปัจจุบันของ topic นี้ สำหรับการทำงานแบบคู่ขนาน ให้เปิด
+      All Messages แล้วส่งข้อความที่นั่นเพื่อสร้าง topic อื่น'
     untitled_session: เซสชันที่ไม่มีชื่อ
   undo:
     nothing: ไม่มีสิ่งที่ต้องย้อนกลับ
@@ -535,8 +594,8 @@ gateway:
   update:
     platform_not_messaging: ✗ /update ใช้ได้เฉพาะจากแพลตฟอร์มแชทเท่านั้น รัน `hermes update` จากเทอร์มินัล
     not_git_repo: ✗ ไม่ใช่ git repository — ไม่สามารถอัปเดตได้
-    hermes_cmd_not_found: ✗ ไม่พบคำสั่ง `hermes` Hermes กำลังทำงานอยู่ แต่คำสั่งอัปเดตไม่พบ
-      executable บน PATH หรือผ่าน Python interpreter ปัจจุบัน ลองรัน `hermes update` ด้วยตนเองในเทอร์มินัล
+    hermes_cmd_not_found: ✗ ไม่พบคำสั่ง `hermes` Hermes กำลังทำงานอยู่ แต่คำสั่งอัปเดตไม่พบ executable บน PATH หรือผ่าน Python
+      interpreter ปัจจุบัน ลองรัน `hermes update` ด้วยตนเองในเทอร์มินัล
     start_failed: '✗ เริ่มการอัปเดตล้มเหลว: {error}'
     starting: ⚕ เริ่มอัปเดต Hermes แล้ว… ผมจะส่งความคืบหน้ามาที่นี่
   usage:
@@ -559,11 +618,13 @@ gateway:
     detailed_after_first: _(ข้อมูลการใช้งานละเอียดจะพร้อมใช้หลังคำตอบแรกของเจ้าหน้าที่)_
     no_data: ไม่มีข้อมูลการใช้งานสำหรับเซสชันนี้
   verbose:
-    not_enabled: "คำสั่ง `/verbose` ไม่ได้เปิดใช้สำหรับแพลตฟอร์มแชท\n\nเปิดใช้ใน `config.yaml`:\n```yaml\n      display:\n  tool_progress_command: true\n```"
+    not_enabled: "คำสั่ง `/verbose` ไม่ได้เปิดใช้สำหรับแพลตฟอร์มแชท\n\nเปิดใช้ใน `config.yaml`:\n```yaml\n      display:\n\
+      \  tool_progress_command: true\n```"
     mode_off: '⚙️ ความคืบเครื่องมือ: **ปิด** — ไม่แสดงกิจกรรมเครื่องมือ'
-    mode_new: '⚙️ ความคืบเครื่องมือ: **ใหม่** — แสดงเมื่อเครื่องมือเปลี่ยน (ความยาวตัวอย่าง: `display.tool_preview_length` ค่าเริ่มต้น
-      40)'
-    mode_all: '⚙️ ความคืบเครื่องมือ: **ทั้งหมด** — แสดงทุกการเรียกเครื่องมือ (ความยาวตัวอย่าง: `display.tool_preview_length` ค่าเริ่มต้น 40)'
+    mode_new: '⚙️ ความคืบเครื่องมือ: **ใหม่** — แสดงเมื่อเครื่องมือเปลี่ยน (ความยาวตัวอย่าง: `display.tool_preview_length`
+      ค่าเริ่มต้น 40)'
+    mode_all: '⚙️ ความคืบเครื่องมือ: **ทั้งหมด** — แสดงทุกการเรียกเครื่องมือ (ความยาวตัวอย่าง: `display.tool_preview_length`
+      ค่าเริ่มต้น 40)'
     mode_verbose: '⚙️ ความคืบเครื่องมือ: **ละเอียด** — ทุกการเรียกเครื่องมือพร้อมอาร์กิวเมนต์เต็ม'
     saved_suffix: _(บันทึกสำหรับ **{platform}** — จะมีผลในข้อความถัดไป)_
     save_failed: '_(ไม่สามารถบันทึกใน config ได้: {error})_'
@@ -596,6 +657,30 @@ gateway:
     session_not_found: ไม่พบเซสชันในฐานข้อมูล
     warn_passthrough: ⚠️ {error}
   interrupting: ⚡ กำลังขัดจังหวะงานปัจจุบัน{detail} ผมจะตอบข้อความของคุณในไม่ช้า
+  queue:
+    usage: 'Usage: /queue <prompt>'
+    queued: Queued for the next turn.
+    queued_depth: Queued for the next turn. ({depth} queued)
+  steer:
+    usage: 'Usage: /steer <prompt>'
+    starting_queued: Agent still starting — /steer queued for the next turn.
+    queued: '⏩ Steer queued — arrives after the next tool call: ''{preview}'''
+    rejected_empty: Steer rejected (empty payload).
+    no_agent_queued: No active agent — /steer queued for the next turn.
+    usage_no_agent: 'Usage: /steer <prompt>  (no agent is running; sending as a normal message)'
+  agent_running:
+    wait_or_stop: Agent is running — wait or /stop first, then switch models.
+    goal_hint: Agent is running — use /goal status / pause / clear mid-run, or /stop before setting a new goal.
+    hook_blocked: Command `/{command}` was blocked by a hook.
+  quick:
+    timed_out: Quick command timed out (30s).
+    error: 'Quick command error: {error}'
+    no_command: Quick command '/{command}' has no command defined.
+    no_target: Quick command '/{command}' has no target defined.
+    unsupported_type: 'Quick command ''/{command}'' has unsupported type (supported: ''exec'', ''alias'').'
+  usage_cmd:
+    platform: 'Usage: /platform {action} <name>'
+    subgoal_remove: 'Usage: /subgoal remove <n>'
 platform:
   update_prompt_answered: 'ตอบคำถามอัปเดตแล้ว: {label}'
   approval_required: 'ต้องการการอนุมัติคำสั่ง: {command}'
@@ -621,8 +706,8 @@ platform:
     เหตุผล: {reason}
 
 
-    ตอบ `/approve` เพื่อดำเนินการ `/approve session` เพื่ออนุมัติรูปแบบนี้สำหรับเซสชันนี้ `/approve always` เพื่ออนุมัติ
-    ถาวร หรือ `/deny` เพื่อยกเลิก
+    ตอบ `/approve` เพื่อดำเนินการ `/approve session` เพื่ออนุมัติรูปแบบนี้สำหรับเซสชันนี้ `/approve always` เพื่ออนุมัติ ถาวร
+    หรือ `/deny` เพื่อยกเลิก
 
 
     หรือคลิกอีโมจิเพื่ออนุมัติ:
@@ -638,8 +723,8 @@ platform:
   cancelled: ❌ ยกเลิกแล้ว
   deny: ❌ ปฏิเสธ
   discord:
-    'False': 'ไม่'
-    'True': 'ใช่'
+    'False': ไม่
+    'True': ใช่
     allow_once: อนุญาตครั้งเดียว
     allow_session: อนุญาตสำหรับเซสชันนี้
     already_answered: ตอบแล้ว~
@@ -756,8 +841,8 @@ platform:
     update_needs_input: ⚕ การอัปเดตต้องการข้อมูลจากคุณ
     user: ผู้ใช้
   feishu:
-    'False': 'ไม่'
-    'True': 'ใช่'
+    'False': ไม่
+    'True': ใช่
     actions_label: 'การกระทำ: {actions}'
     answered_by: ตอบโดย **{user}**
     approved_by: '{label} โดย {user}'
@@ -795,8 +880,7 @@ platform:
     unauthorized_prompt: ⛔ คุณไม่มีสิทธิ์ตอบคำถามนี้
     unauthorized_update: ⛔ คุณไม่มีสิทธิ์ตอบคำถามอัปเดต
 agent:
-  stale_connections_cleaned: 🔌 ตรวจพบการเชื่อมต่อเก่าจากปัญหาผู้ให้บริการก่อนหน้า — ล้างอัตโนมัติแล้ว กำลังทำงานต่อด้วย
-    การเชื่อมต่อใหม่
+  stale_connections_cleaned: 🔌 ตรวจพบการเชื่อมต่อเก่าจากปัญหาผู้ให้บริการก่อนหน้า — ล้างอัตโนมัติแล้ว กำลังทำงานต่อด้วย การเชื่อมต่อใหม่
   starting_conversation: '💬 เริ่มการสนทนา: ''{preview}'''
   iteration_budget_exhausted: '
 
@@ -885,31 +969,29 @@ run_agent:
   self_improvement_review: '💾 ทบทวนการปรับปรุงตนเอง: {summary}'
   compacting_context: 🗜️ กำลังย่อส่วนบริบท — สรุปการสนทนาก่อนหน้าเพื่อให้ทำงานต่อได้...
   preflight_compression: '📦 การบีบอัดก่อนเทิร์น: ~{tokens} tokens >= เกณฑ์ {threshold} อาจใช้เวลาสักครู่'
-  compression_aborted: '⚠️ การบีบอัดถูกยกเลิก: {error} ไม่มีข้อความถูกลบ — การสนทนาดำเนินต่อไปโดยไม่เปลี่ยนแปลง รัน
-    /compress เพื่อลองใหม่ หรือ /new เพื่อเริ่มเซสชันใหม่'
+  compression_aborted: '⚠️ การบีบอัดถูกยกเลิก: {error} ไม่มีข้อความถูกลบ — การสนทนาดำเนินต่อไปโดยไม่เปลี่ยนแปลง รัน /compress
+    เพื่อลองใหม่ หรือ /new เพื่อเริ่มเซสชันใหม่'
   compression_failed: '⚠️ การสรุปการบีบอัดล้มเหลว: {error} แทรก marker บริบทสำรองแล้ว'
   aux_model_failed: ℹ️ โมเดลบีบอัดที่ตั้งค่าไว้ '{model}' ล้มเหลว ({error}) กู้คืนด้วยโมเดลหลักแล้ว — ตรวจสอบ auxiliary.compression.model
     ใน config.yaml
   interrupting: ⚡ กำลังขัดจังหวะงานปัจจุบัน{detail} ผมจะตอบข้อความของคุณในไม่ช้า
 onboarding:
-  busy_queue: 💡 เคล็ดลับครั้งแรก — ผมคิวข้อความของคุณไว้แทนการขัดจังหวะ ส่ง `/busy interrupt` เพื่อให้ข้อความใหม่
-    หยุดงานปัจจุบันทันที หรือ `/busy status` เพื่อตรวจสอบ ประกาศนี้จะไม่แสดงอีก
-  busy_steer: 💡 เคล็ดลับครั้งแรก — ผมนำข้อความของคุณเข้าสู่การทำงานปัจจุบัน; มันจะมาถึงหลังการเรียกเครื่องมือถัดไปแทน
-    การขัดจังหวะ ส่ง `/busy interrupt` หรือ `/busy queue` เพื่อเปลี่ยน หรือ `/busy status` เพื่อตรวจสอบ ประกาศนี้จะไม่
-    แสดงอีก
-  busy_interrupt: 💡 เคล็ดลับครั้งแรก — ผมขัดจังหวะงานปัจจุบันเพื่อตอบคุณ ส่ง `/busy queue` เพื่อคิวข้อความต่อเนื่อง
-    ไว้หลังงานปัจจุบันแทน หรือ `/busy steer` เพื่อแทรกมันระหว่างทางโดยไม่ขัดจังหวะ หรือ `/busy status` เพื่อตรวจสอบ
-    ประกาศนี้จะไม่แสดงอีก
-  busy_queue_cli: (เคล็ดลับ) ข้อความของคุณถูกคิวไว้สำหรับเทิร์นถัดไป ใช้ /busy interrupt เพื่อให้ Enter หยุดงานปัจจุบัน
-    แทน หรือ /busy steer เพื่อแทรกมันระหว่างทาง เคล็ดลับนี้แสดงเพียงครั้งเดียว
+  busy_queue: 💡 เคล็ดลับครั้งแรก — ผมคิวข้อความของคุณไว้แทนการขัดจังหวะ ส่ง `/busy interrupt` เพื่อให้ข้อความใหม่ หยุดงานปัจจุบันทันที
+    หรือ `/busy status` เพื่อตรวจสอบ ประกาศนี้จะไม่แสดงอีก
+  busy_steer: 💡 เคล็ดลับครั้งแรก — ผมนำข้อความของคุณเข้าสู่การทำงานปัจจุบัน; มันจะมาถึงหลังการเรียกเครื่องมือถัดไปแทน การขัดจังหวะ
+    ส่ง `/busy interrupt` หรือ `/busy queue` เพื่อเปลี่ยน หรือ `/busy status` เพื่อตรวจสอบ ประกาศนี้จะไม่ แสดงอีก
+  busy_interrupt: 💡 เคล็ดลับครั้งแรก — ผมขัดจังหวะงานปัจจุบันเพื่อตอบคุณ ส่ง `/busy queue` เพื่อคิวข้อความต่อเนื่อง ไว้หลังงานปัจจุบันแทน
+    หรือ `/busy steer` เพื่อแทรกมันระหว่างทางโดยไม่ขัดจังหวะ หรือ `/busy status` เพื่อตรวจสอบ ประกาศนี้จะไม่แสดงอีก
+  busy_queue_cli: (เคล็ดลับ) ข้อความของคุณถูกคิวไว้สำหรับเทิร์นถัดไป ใช้ /busy interrupt เพื่อให้ Enter หยุดงานปัจจุบัน แทน
+    หรือ /busy steer เพื่อแทรกมันระหว่างทาง เคล็ดลับนี้แสดงเพียงครั้งเดียว
   busy_steer_cli: (เคล็ดลับ) ข้อความของคุณถูกนำเข้าสู่งานปัจจุบัน; มันจะมาถึงหลังการเรียกเครื่องมือถัดไป ใช้ /busy interrupt
     หรือ /busy queue เพื่อเปลี่ยน เคล็ดลับนี้แสดงเพียงครั้งเดียว
-  busy_interrupt_cli: (เคล็ดลับ) ข้อความของคุณขัดจังหวะงานปัจจุบัน ใช้ /busy queue เพื่อคิวข้อความสำหรับเทิร์นถัดไป
-    แทน หรือ /busy steer เพื่อแทรกมันระหว่างทาง เคล็ดลับนี้แสดงเพียงครั้งเดียว
-  tool_progress_gateway: 💡 เคล็ดลับครั้งแรก — เครื่องมือนั้นใช้เวลาสักครู่และผมกำลังส่งทุกขั้นตอน หากรายงานความคืบหน้า
-    รู้สึกมากเกินไป ส่ง `/verbose` เพื่อสลับโหมด (all → new → off) ประกาศนี้จะไม่แสดงอีก
-  tool_progress_cli: (เคล็ดลับ) เครื่องมือนั้นใช้เวลาสักครู่ — ผมกำลังส่งทุกขั้นตอน ใช้ /verbose เพื่อสลับโหมดความคืบหน้า (all →
-    new → off) เคล็ดลับนี้แสดงเพียงครั้งเดียว
+  busy_interrupt_cli: (เคล็ดลับ) ข้อความของคุณขัดจังหวะงานปัจจุบัน ใช้ /busy queue เพื่อคิวข้อความสำหรับเทิร์นถัดไป แทน หรือ
+    /busy steer เพื่อแทรกมันระหว่างทาง เคล็ดลับนี้แสดงเพียงครั้งเดียว
+  tool_progress_gateway: 💡 เคล็ดลับครั้งแรก — เครื่องมือนั้นใช้เวลาสักครู่และผมกำลังส่งทุกขั้นตอน หากรายงานความคืบหน้า รู้สึกมากเกินไป
+    ส่ง `/verbose` เพื่อสลับโหมด (all → new → off) ประกาศนี้จะไม่แสดงอีก
+  tool_progress_cli: (เคล็ดลับ) เครื่องมือนั้นใช้เวลาสักครู่ — ผมกำลังส่งทุกขั้นตอน ใช้ /verbose เพื่อสลับโหมดความคืบหน้า
+    (all → new → off) เคล็ดลับนี้แสดงเพียงครั้งเดียว
   openclaw_residue: 'พบไดเรกทอรี OpenClaw เก่าที่ ~/.openclaw/
 
     ในการย้าย config, ความจำ และ skills มาที่ Hermes ให้รัน `hermes claw migrate`
@@ -968,8 +1050,8 @@ activity:
   iteration_exhausted_cli: ⚠️ งบวน loop หมดแล้ว ({current}/{max}) — กำลังขอสรุป...
   agent_inactive: ⏱️ เจ้าหน้าที่ไม่ทำงานมา {minutes} นาที — ไม่มีการเรียกเครื่องมือหรือการตอบสนอง API
   agent_stuck_tool: เจ้าหน้าที่ดูเหมือนจะติดอยู่ที่เครื่องมือ `{tool}` ({seconds}s นับจากกิจกรรมล่าสุด, วน loop ที่ {current}/{max})
-  agent_last_activity: 'กิจกรรมล่าสุด: {desc} ({seconds}s ที่แล้ว, วน loop ที่ {current}/{max}) เจ้าหน้าที่อาจรอ
-    การตอบสนองจาก API'
+  agent_last_activity: 'กิจกรรมล่าสุด: {desc} ({seconds}s ที่แล้ว, วน loop ที่ {current}/{max}) เจ้าหน้าที่อาจรอ การตอบสนองจาก
+    API'
 cli:
   compression_count: 🗜️ {count}
   model_normalized: ⚠️ แปลงโมเดล '{from_model}' เป็น '{to_model}' สำหรับ {provider}
@@ -1017,3 +1099,5 @@ setup:
   complete_start: 'เริ่มแชท: hermes'
   complete_gateway: 'รัน gateway: hermes gateway run'
   complete_docs: 'อ่านเอกสาร: hermes help'
+  run_agent:
+    compending_context: 🗜️ Compacting context — summarizing earlier conversation to continue...

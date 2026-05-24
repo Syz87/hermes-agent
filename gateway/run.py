@@ -6863,7 +6863,7 @@ class GatewayRunner:
             if event.get_command() in {"queue", "q"}:
                 queued_text = event.get_command_args().strip()
                 if not queued_text:
-                    return "Usage: /queue <prompt>"
+                    return t("gateway.queue.usage")
                 adapter = self.adapters.get(source.platform)
                 if adapter:
                     queued_event = MessageEvent(
@@ -6876,8 +6876,8 @@ class GatewayRunner:
                     self._enqueue_fifo(_quick_key, queued_event, adapter)
                 depth = self._queue_depth(_quick_key, adapter=self.adapters.get(source.platform))
                 if depth <= 1:
-                    return "Queued for the next turn."
-                return f"Queued for the next turn. ({depth} queued)"
+                    return t("gateway.queue.queued")
+                return t("gateway.queue.queued_depth", depth=depth)
 
             # /steer <prompt> — inject mid-run after the next tool call.
             # Unlike /queue (turn boundary), /steer lands BETWEEN tool-call
@@ -6887,7 +6887,7 @@ class GatewayRunner:
             if _cmd_def_inner and _cmd_def_inner.name == "steer":
                 steer_text = event.get_command_args().strip()
                 if not steer_text:
-                    return "Usage: /steer <prompt>"
+                    return t("gateway.steer.usage")
                 running_agent = self._running_agents.get(_quick_key)
                 if running_agent is _AGENT_PENDING_SENTINEL:
                     # Agent hasn't started yet — queue as turn-boundary fallback.
@@ -6901,7 +6901,7 @@ class GatewayRunner:
                             channel_prompt=event.channel_prompt,
                         )
                         adapter._pending_messages[_quick_key] = queued_event
-                    return "Agent still starting — /steer queued for the next turn."
+                    return t("gateway.steer.starting_queued")
                 if running_agent and hasattr(running_agent, "steer"):
                     try:
                         accepted = running_agent.steer(steer_text)
@@ -6910,8 +6910,8 @@ class GatewayRunner:
                         return t("gateway.steer_failed", error=exc)
                     if accepted:
                         preview = steer_text[:60] + ("..." if len(steer_text) > 60 else "")
-                        return f"⏩ Steer queued — arrives after the next tool call: '{preview}'"
-                    return "Steer rejected (empty payload)."
+                        return t("gateway.steer.queued", preview=preview)
+                    return t("gateway.steer.rejected_empty")
                 # Running agent is missing or lacks steer() — fall back to queue.
                 adapter = self.adapters.get(source.platform)
                 if adapter:
@@ -6923,11 +6923,11 @@ class GatewayRunner:
                         channel_prompt=event.channel_prompt,
                     )
                     adapter._pending_messages[_quick_key] = queued_event
-                return "No active agent — /steer queued for the next turn."
+                return t("gateway.steer.no_agent_queued")
 
             # /model must not be used while the agent is running.
             if _cmd_def_inner and _cmd_def_inner.name == "model":
-                return "Agent is running — wait or /stop first, then switch models."
+                return t("gateway.agent_running.wait_or_stop")
 
             # /codex-runtime must not be used while the agent is running.
             # Switching mid-turn would split a turn across two transports.
@@ -6972,7 +6972,7 @@ class GatewayRunner:
                 _goal_arg = (event.get_command_args() or "").strip().lower()
                 if not _goal_arg or _goal_arg in {"status", "pause", "resume", "clear", "stop", "done"}:
                     return await self._handle_goal_command(event)
-                return "Agent is running — use /goal status / pause / clear mid-run, or /stop before setting a new goal."
+                return t("gateway.agent_running.goal_hint")
 
             # /subgoal is safe mid-run — it only modifies the goal's
             # subgoals list, which the judge reads at the next turn
@@ -7194,7 +7194,7 @@ class GatewayRunner:
                     message = hook_result.get("message")
                     if isinstance(message, str) and message:
                         return message
-                    return f"Command `/{command}` was blocked by a hook."
+                    return t("gateway.agent_running.hook_blocked", command=command)
                 if decision == "handled":
                     message = hook_result.get("message")
                     return message if isinstance(message, str) and message else None
@@ -7352,7 +7352,7 @@ class GatewayRunner:
             # message. If the payload is empty, surface the usage hint.
             steer_payload = event.get_command_args().strip()
             if not steer_payload:
-                return "Usage: /steer <prompt>  (no agent is running; sending as a normal message)"
+                return t("gateway.steer.usage_no_agent")
             try:
                 event.text = steer_payload
             except Exception:
@@ -7406,11 +7406,11 @@ class GatewayRunner:
                                 output = redact_sensitive_text(output)
                             return output if output else "Command returned no output."
                         except asyncio.TimeoutError:
-                            return "Quick command timed out (30s)."
+                            return t("gateway.quick.timed_out")
                         except Exception as e:
-                            return f"Quick command error: {e}"
+                            return t("gateway.quick.error", error=str(e))
                     else:
-                        return f"Quick command '/{command}' has no command defined."
+                        return t("gateway.quick.no_command", command=command)
                 elif qcmd.get("type") == "alias":
                     target = qcmd.get("target", "").strip()
                     if target:
@@ -7421,9 +7421,9 @@ class GatewayRunner:
                         command = target_command.split()[0] if target_command else target_command
                         # Fall through to normal command dispatch below
                     else:
-                        return f"Quick command '/{command}' has no target defined."
+                        return t("gateway.quick.no_target", command=command)
                 else:
-                    return f"Quick command '/{command}' has unsupported type (supported: 'exec', 'alias')."
+                    return t("gateway.quick.unsupported_type", command=command)
 
         # Plugin-registered slash commands
         if command:
@@ -9000,7 +9000,7 @@ class GatewayRunner:
         if config_context_length is not None:
             ctx_source = "config"
         elif context_length == DEFAULT_FALLBACK_CONTEXT:
-            ctx_source = "default — set model.context_length in config to override"
+            ctx_source = t("gateway.reset.ctx_source_default")
         else:
             ctx_source = "detected"
 
@@ -9013,14 +9013,14 @@ class GatewayRunner:
             ctx_display = str(context_length)
 
         lines = [
-            f"◆ Model: `{model}`",
-            f"◆ Provider: {provider or 'openrouter'}",
-            f"◆ Context: {ctx_display} tokens ({ctx_source})",
+            t("gateway.reset.info_model", model=model),
+            t("gateway.reset.info_provider", provider=provider or "openrouter"),
+            t("gateway.reset.info_context", ctx_display=ctx_display, ctx_source=ctx_source),
         ]
 
         # Show endpoint for local/custom setups
         if base_url and ("localhost" in base_url or "127.0.0.1" in base_url or "0.0.0.0" in base_url):
-            lines.append(f"◆ Endpoint: {base_url}")
+            lines.append(t("gateway.reset.info_endpoint", base_url=base_url))
 
         return "\n".join(lines)
 
@@ -9644,7 +9644,7 @@ class GatewayRunner:
 
         if action in {"pause", "resume"}:
             if not target:
-                return f"Usage: /platform {action} <name>"
+                return t("gateway.usage_cmd.platform", action=action)
             platform = _resolve_platform(target)
             if platform is None:
                 return f"Unknown platform: {target}"
@@ -10553,7 +10553,7 @@ class GatewayRunner:
 
         if verb == "remove":
             if not rest:
-                return "Usage: /subgoal remove <n>"
+                return t("gateway.usage_cmd.subgoal_remove")
             try:
                 idx = int(rest.split()[0])
             except ValueError:
